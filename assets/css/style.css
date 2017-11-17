@@ -1,0 +1,26 @@
+.answer, .correct{
+  border: 1px solid #5153E8;
+  padding: 15px;
+  margin: 20px;
+  font-size: 18px;
+}
+
+.answer:hover, .correct:hover {
+  background: #5153E8;
+  color: #FFF;
+}
+
+#restart{
+  font-size: 18px;
+  padding: 15px;
+  margin: 20px;
+}
+
+#restart:hover{
+  color: #fff;
+  background: #FF7E48;
+}
+
+img{
+  margin-top: 30px;
+}

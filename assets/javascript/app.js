@@ -18,43 +18,50 @@ var questionArr = [
   answer2: "Kal-El",
   answer3: "Kara Zor-El",
   answer4: "Zod",
-  correct: "a2"},
+  correct: "a2",
+  gif: "https://media.giphy.com/media/R8MIGe47XWx68/giphy.gif"},
   {question: 'Where were Batman\'s parents killed?',
   answer1: "They're still alive",
   answer2: "Joker's hideout",
   answer3: "Crime Alley",
   answer4: "Broadway Ave",
-  correct: "a3"},
+  correct: "a3",
+  gif: 'https://media.giphy.com/media/jLIWow892D3pu/giphy.gif'},
   {question: 'Who told Spiderman that "With great power, comes great responsibility"?',
   answer1: "Uncle Ben",
   answer2: "Aunt May",
   answer3: "Uncle John",
   answer4: "JJ Jameson",
-  correct: "a1"},
+  correct: "a1",
+  gif: 'https://media.giphy.com/media/3ofT5EDMrdsm7i4PLO/giphy.gif'},
   {question: 'What is the source of The Flash\'s speed?',
   answer1: "Quicksilver",
   answer2: "The Sun ",
   answer3: "A balanced diet",
   answer4: "The Speed Force",
-  correct: "a4"},
+  correct: "a4",
+  gif: 'https://media.giphy.com/media/3ornk0fvb2HkcErgcM/giphy.gif'},
   {question: 'What is Thor\'s home planet?',
   answer1: "Krypton",
   answer2: "Asgard",
   answer3: "Oa",
   answer4: "Earth",
-  correct: "a2"},
+  correct: "a2",
+  gif: 'https://media.giphy.com/media/Ch1zCx8tu6DQY/giphy.gif'},
   {question: 'What kind or Martian is The Martian Manhunter?',
   answer1: "White Martian",
   answer2: "American",
   answer3: "Red Martian",
   answer4: "Green Martian",
-  correct: "a4"},  
+  correct: "a4",
+  gif: 'https://media.giphy.com/media/ev73zXYWAuyJ2/giphy.gif'},  
   {question: 'What gave Captain America his powers?',
   answer1: "The Lazarus Pit",
   answer2: "Super Strength Potion",
   answer3: "Super Soldier Serum",
   answer4: "A great exercise routine",
-  correct: "a3"},
+  correct: "a3",
+  gif: 'https://media.giphy.com/media/tnYri4n2Frnig/giphy.gif'},
   ]
 
 
@@ -65,6 +72,7 @@ var rightAnswer = 0;
 var wrongAnswer = 0;
 var currentQuestion = 0;
 var interval;
+var gifURL;
 
 
 function countDown(){
@@ -74,7 +82,8 @@ function countDown(){
     $('#timer').text('Time left: ' + seconds);
     
     if (seconds === 0){
-      $('#banner').text('Time\'s Up');
+      $('#banner').text('Time\'s Up').append('<br/><img src="' + gifURL + '" />');
+      $('.panel').hide();
       nextQuestion();
     }
   }, 1000) 
@@ -83,6 +92,7 @@ function countDown(){
 function question(){
 
   $('#banner, .score').empty();
+  $('.panel').show();
 
   if(currentQuestion == questionArr.length){
     score();
@@ -97,6 +107,7 @@ function question(){
     var cor = $(questionArr[currentQuestion]).attr('correct');
     $('#' + cor).removeClass('answer').addClass('correct');
     countDown();
+    gifURL = $(questionArr[currentQuestion]).attr('gif');
     currentQuestion++;
   } 
 };
@@ -111,26 +122,29 @@ function nextQuestion(){
 
 function score(){
   $('#banner').text('Way to go, you got to the end!');
+  $('.panel').hide();
   var score = $('<div>');
   score.addClass('score');
-  score.append('<p>You correctly answered: '+ rightAnswer +'</p>');
-  score.append('<p>You missed: '+ wrongAnswer +'</p>');
+  score.append('<h3>You correctly answered: '+ rightAnswer +'</h3>');
+  score.append('<h3>You missed: '+ wrongAnswer +'</h3>');
   score.append('<div id="restart">Click here to try again</div>');
-  $('.game-board').append(score);
+  $('.page-header').append(score);
 };
 
 
 $('#banner').click(question);
 
 $(document).on('click', '.correct', function(){ 
-  $('#banner').text('Correct! Good Guess!');
+  $('#banner').text('Correct! Good Guess!').append('<br/><img src="' + gifURL + '" />');
   rightAnswer++;
+  $('.panel').hide();
   nextQuestion();
 });
 
 $(document).on('click', '.answer', function(){
-  $('#banner').text('NOOOOPE!');
+  $('#banner').text('NOOOOPE!').append('<br/><img src="' + gifURL + '" />');
   wrongAnswer++;
+  $('.panel').hide();
   nextQuestion();
 });
 
@@ -138,3 +152,5 @@ $(document).on('click', '#restart', function(){
   currentQuestion = 0;
   question();
 });
+
+$('.panel').hide();
